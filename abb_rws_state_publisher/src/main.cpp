@@ -55,7 +55,10 @@ int main(int argc, char** argv)
   // Preparations
   //--------------------------------------------------------
   ros::init(argc, argv, "rws_state_publisher");
-
+  if( ros::console::set_logger_level(ROSCONSOLE_DEFAULT_NAME, ros::console::levels::Debug) ) {
+      ros::console::notifyLoggerLevelsChanged();
+  }
+  ROS_DEBUG("Log level set to debug!");
   // Create a node handle, in the namespace where
   // the node should read parameters from.
   ros::NodeHandle nh_params{"~"};
@@ -78,12 +81,12 @@ int main(int argc, char** argv)
   }
   catch(const std::runtime_error& exception)
   {
-    ROS_FATAL_STREAM_NAMED(ROS_LOG_MAIN, "Runtime error: '" << exception.what() << "'");
+    ROS_FATAL_STREAM_NAMED(ROS_LOG_MAIN, "Runtime error: '" << boost::diagnostic_information(exception) << "'");
     return EXIT_FAILURE;
   }
   catch(const std::exception& exception)
   {
-    ROS_FATAL_STREAM_NAMED(ROS_LOG_MAIN, "Exception '" << exception.what() << "'");
+    ROS_FATAL_STREAM_NAMED(ROS_LOG_MAIN, "Exception '" << boost::diagnostic_information(exception)  << "'");
     return EXIT_FAILURE;
   }
   catch(...)

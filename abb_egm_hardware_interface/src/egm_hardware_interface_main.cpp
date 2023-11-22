@@ -126,22 +126,22 @@ int main(int argc, char** argv)
   }
   catch(const std::runtime_error& exception)
   {
-    ROS_FATAL_STREAM_NAMED(ROS_LOG_MAIN, "Runtime error: '" << exception.what() << "'");
+    ROS_FATAL_STREAM_NAMED(ROS_LOG_MAIN, "Runtime error: '" << boost::diagnostic_information(exception) << "'");
     return EXIT_FAILURE;
   }
   catch(const std::invalid_argument& exception)
   {
-    ROS_FATAL_STREAM_NAMED(ROS_LOG_MAIN, "Invalid argument: '" << exception.what() << "'");
+    ROS_FATAL_STREAM_NAMED(ROS_LOG_MAIN, "Invalid argument: '" << boost::diagnostic_information(exception) << "'");
     return EXIT_FAILURE;
   }
   catch(const std::out_of_range& exception)
   {
-    ROS_FATAL_STREAM_NAMED(ROS_LOG_MAIN, "Out of range: '" << exception.what() << "'");
+    ROS_FATAL_STREAM_NAMED(ROS_LOG_MAIN, "Out of range: '" << boost::diagnostic_information(exception) << "'");
     return EXIT_FAILURE;
   }
   catch(const std::exception& exception)
   {
-    ROS_FATAL_STREAM_NAMED(ROS_LOG_MAIN, "Exception '" << exception.what() << "'");
+    ROS_FATAL_STREAM_NAMED(ROS_LOG_MAIN, "Exception '" << boost::diagnostic_information(exception) << "'");
     return EXIT_FAILURE;
   }
   catch(...)
