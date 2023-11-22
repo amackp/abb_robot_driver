@@ -169,7 +169,7 @@ void EGMHardwareInterface::read(const ros::Time& time, const ros::Duration& peri
   // Print log messages.
   if (any_controller_started_ && !read_ok)
   {
-    ROS_WARN_STREAM_THROTTLE_NAMED(THROTTLE_TIME, ROS_LOG_RUNTIME,
+    ROS_INFO_STREAM_THROTTLE_NAMED(THROTTLE_TIME, ROS_LOG_RUNTIME,
                                    "Timed out while waiting for EGM feedback "
                                    "(did the EGM session end on the robot controller?)");
     print_feedback_received_ = true;
@@ -446,7 +446,7 @@ bool EGMHardwareInterface::initializeEGMChannelParameters(ros::NodeHandle& nh)
       catch (const std::runtime_error& exception)
       {
         ROS_FATAL_STREAM_NAMED(ROS_LOG_INIT,
-                               "Runtime error while parsing channel " << channel << ": '" << exception.what() << "'");
+                               "Runtime error while parsing channel " << channel << ": '" << boost::diagnostic_information(exception) << "'");
         return false;
       }
     }

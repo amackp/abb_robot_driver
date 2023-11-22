@@ -150,16 +150,19 @@ RWSStatePublisher::RWSStatePublisher(ros::NodeHandle& nh_params, ros::NodeHandle
 void RWSStatePublisher::pollingTimerCallback(const ros::TimerEvent& event)
 {
   (void)event;
-
+  static int attempts = 0;
+  static int failures = 0;
   try
   {
+    attempts++;
     rws_manager_.collectAndUpdateRuntimeData(system_state_data_, motion_data_);
   }
   catch (const std::runtime_error& exception)
   {
-    ROS_WARN_STREAM_THROTTLE_NAMED(THROTTLE_TIME, ROS_LOG_INIT,
-                                   "Periodic polling of runtime data via RWS failed with '"
-                                       << exception.what() << "' (will try again later)");
+    failures++;
+    ROS_INFO_STREAM_THROTTLE_NAMED(THROTTLE_TIME, ROS_LOG_INIT,
+                                   "[" << failures << "/" << attempts << "] Periodic polling of runtime data via RWS failed with '"
+                                       << boost::diagnostic_information(exception) << "' (will try again later)");
   }
 
   //--------------------------------------------------------

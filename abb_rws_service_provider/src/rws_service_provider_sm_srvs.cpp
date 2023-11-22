@@ -210,7 +210,7 @@ bool RWSServiceProvider::setSGCommand(SetSGCommand::Request& request, SetSGComma
   }
   catch (const std::runtime_error& exception)
   {
-    response.message = exception.what();
+    response.message = boost::diagnostic_information(exception);
     response.result_code = abb_robot_msgs::ServiceResponses::RC_FAILED;
     return true;
   }
@@ -341,7 +341,7 @@ bool RWSServiceProvider::startEGMJoint(TriggerWithResultCode::Request&, TriggerW
     {
       response.message = abb_robot_msgs::ServiceResponses::FAILED;
       response.result_code = abb_robot_msgs::ServiceResponses::RC_FAILED;
-      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, e.what());
+      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, boost::diagnostic_information(e));
     }
   });
 

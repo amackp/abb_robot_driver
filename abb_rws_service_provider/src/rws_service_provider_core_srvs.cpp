@@ -85,7 +85,7 @@ bool RWSServiceProvider::getFileContents(GetFileContents::Request& request, GetF
       response.message = abb_robot_msgs::ServiceResponses::FAILED;
       response.result_code = abb_robot_msgs::ServiceResponses::RC_FAILED;
 
-      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, e.what());
+      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, boost::diagnostic_information(e));
     }
   });
 
@@ -119,7 +119,7 @@ bool RWSServiceProvider::getIOSignal(GetIOSignal::Request& request, GetIOSignal:
   //                           {
   //                             response.message = abb_robot_msgs::ServiceResponses::FAILED;
   //                             response.result_code = abb_robot_msgs::ServiceResponses::RC_FAILED;
-  //                             ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, e.what());
+  //                             ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, boost::diagnostic_information(e));
   //                           }
   //                         });
 
@@ -153,7 +153,7 @@ bool RWSServiceProvider::getRAPIDBool(GetRAPIDBool::Request& request, GetRAPIDBo
     {
       response.message = abb_robot_msgs::ServiceResponses::FAILED;
       response.result_code = abb_robot_msgs::ServiceResponses::RC_FAILED;
-      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, e.what());
+      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, boost::diagnostic_information(e));
     }
   });
 
@@ -188,7 +188,7 @@ bool RWSServiceProvider::getRAPIDDnum(GetRAPIDDnum::Request& request, GetRAPIDDn
     {
       response.message = abb_robot_msgs::ServiceResponses::FAILED;
       response.result_code = abb_robot_msgs::ServiceResponses::RC_FAILED;
-      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, e.what());
+      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, boost::diagnostic_information(e));
     }
   });
 
@@ -223,7 +223,7 @@ bool RWSServiceProvider::getRAPIDNum(GetRAPIDNum::Request& request, GetRAPIDNum:
     {
       response.message = abb_robot_msgs::ServiceResponses::FAILED;
       response.result_code = abb_robot_msgs::ServiceResponses::RC_FAILED;
-      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, e.what());
+      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, boost::diagnostic_information(e));
     }
   });
 
@@ -258,7 +258,7 @@ bool RWSServiceProvider::getRAPIDString(GetRAPIDString::Request& request, GetRAP
     {
       response.message = abb_robot_msgs::ServiceResponses::FAILED;
       response.result_code = abb_robot_msgs::ServiceResponses::RC_FAILED;
-      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, e.what());
+      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, boost::diagnostic_information(e));
     }
   });
 
@@ -289,7 +289,7 @@ bool RWSServiceProvider::getRAPIDSymbol(GetRAPIDSymbol::Request& request, GetRAP
     {
       response.message = abb_robot_msgs::ServiceResponses::FAILED;
       response.result_code = abb_robot_msgs::ServiceResponses::RC_FAILED;
-      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, e.what());
+      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, boost::diagnostic_information(e));
     }
   });
 
@@ -316,7 +316,7 @@ bool RWSServiceProvider::getSpeedRatio(GetSpeedRatio::Request&, GetSpeedRatio::R
     }
     catch (const std::runtime_error& exception)
     {
-      response.message = exception.what();
+      response.message = boost::diagnostic_information(exception);
       response.result_code = abb_robot_msgs::ServiceResponses::RC_FAILED;
     }
   });
@@ -339,7 +339,7 @@ bool RWSServiceProvider::ppToMain(TriggerWithResultCode::Request&, TriggerWithRe
   //--------------------------
   // Run service
   //--------------------------
-  rws_manager_.runService([&](rws::v2_0::RWSStateMachineInterface& interface) {
+  rws_manager_.runPriorityService([&](rws::v2_0::RWSStateMachineInterface& interface) {
     // Reset the RAPID program pointer.
     try
     {
@@ -351,7 +351,7 @@ bool RWSServiceProvider::ppToMain(TriggerWithResultCode::Request&, TriggerWithRe
     catch (const std::runtime_error& e)
     {
       response.message = abb_robot_msgs::ServiceResponses::FAILED;
-      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, e.what());
+      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, boost::diagnostic_information(e));
     }
   });
 
@@ -382,7 +382,7 @@ bool RWSServiceProvider::setFileContents(SetFileContents::Request& request, SetF
     {
       response.message = abb_robot_msgs::ServiceResponses::FAILED;
       response.result_code = abb_robot_msgs::ServiceResponses::RC_FAILED;
-      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, e.what());
+      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, boost::diagnostic_information(e));
     }
   });
 
@@ -415,7 +415,7 @@ bool RWSServiceProvider::setIOSignal(SetIOSignal::Request& request, SetIOSignal:
   //                           {
   //                             response.message = abb_robot_msgs::ServiceResponses::FAILED;
   //                             response.result_code = abb_robot_msgs::ServiceResponses::RC_FAILED;
-  //                             ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, e.what());
+  //                             ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, boost::diagnostic_information(e));
   //                           }
   //                         });
 
@@ -443,7 +443,7 @@ bool RWSServiceProvider::setMotorsOff(TriggerWithResultCode::Request&, TriggerWi
     catch (const std::runtime_error& e)
     {
       response.message = abb_robot_msgs::ServiceResponses::FAILED;
-      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, e.what());
+      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, boost::diagnostic_information(e));
     }
   });
 
@@ -465,7 +465,7 @@ bool RWSServiceProvider::setMotorsOn(TriggerWithResultCode::Request&, TriggerWit
   //--------------------------
   // Run service
   //--------------------------
-  rws_manager_.runService([&](rws::v2_0::RWSStateMachineInterface& interface) {
+  rws_manager_.runPriorityService([&](rws::v2_0::RWSStateMachineInterface& interface) {
     // Set the motors on.
     try
     {
@@ -475,7 +475,7 @@ bool RWSServiceProvider::setMotorsOn(TriggerWithResultCode::Request&, TriggerWit
     catch (const std::runtime_error& e)
     {
       response.message = abb_robot_msgs::ServiceResponses::FAILED;
-      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, e.what());
+      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, boost::diagnostic_information(e));
     }
   });
 
@@ -510,7 +510,7 @@ bool RWSServiceProvider::setRAPIDBool(SetRAPIDBool::Request& request, SetRAPIDBo
     {
       response.message = abb_robot_msgs::ServiceResponses::FAILED;
       response.result_code = abb_robot_msgs::ServiceResponses::RC_FAILED;
-      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, e.what());
+      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, boost::diagnostic_information(e));
     }
   });
 
@@ -545,7 +545,7 @@ bool RWSServiceProvider::setRAPIDDnum(SetRAPIDDnum::Request& request, SetRAPIDDn
     {
       response.message = abb_robot_msgs::ServiceResponses::FAILED;
       response.result_code = abb_robot_msgs::ServiceResponses::RC_FAILED;
-      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, e.what());
+      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, boost::diagnostic_information(e));
     }
   });
 
@@ -580,7 +580,7 @@ bool RWSServiceProvider::setRAPIDNum(SetRAPIDNum::Request& request, SetRAPIDNum:
     {
       response.message = abb_robot_msgs::ServiceResponses::FAILED;
       response.result_code = abb_robot_msgs::ServiceResponses::RC_FAILED;
-      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, e.what());
+      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, boost::diagnostic_information(e));
     }
   });
 
@@ -614,7 +614,7 @@ bool RWSServiceProvider::setRAPIDString(SetRAPIDString::Request& request, SetRAP
     {
       response.message = abb_robot_msgs::ServiceResponses::FAILED;
       response.result_code = abb_robot_msgs::ServiceResponses::RC_FAILED;
-      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, e.what());
+      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, boost::diagnostic_information(e));
     }
   });
 
@@ -647,7 +647,7 @@ bool RWSServiceProvider::setRAPIDSymbol(SetRAPIDSymbol::Request& request, SetRAP
     {
       response.message = abb_robot_msgs::ServiceResponses::FAILED;
       response.result_code = abb_robot_msgs::ServiceResponses::RC_FAILED;
-      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, e.what());
+      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, boost::diagnostic_information(e));
     }
   });
 
@@ -678,7 +678,7 @@ bool RWSServiceProvider::setSpeedRatio(SetSpeedRatio::Request& request, SetSpeed
     {
       response.message = abb_robot_msgs::ServiceResponses::FAILED;
       response.result_code = abb_robot_msgs::ServiceResponses::RC_FAILED;
-      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, e.what());
+      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, boost::diagnostic_information(e));
     }
   });
 
@@ -700,17 +700,26 @@ bool RWSServiceProvider::startRAPID(TriggerWithResultCode::Request&, TriggerWith
   //--------------------------
   // Run service
   //--------------------------
-  rws_manager_.runService([&](rws::v2_0::RWSStateMachineInterface& interface) {
+  rws_manager_.runPriorityService([&](rws::v2_0::RWSStateMachineInterface& interface) {
     // Start RAPID execution.
     try
     {
+      // interface.releaseMastership(rws::v2_0::MastershipDomain::motion);
+      // interface.releaseMastership();
+      // interface.requestMastership(rws::v2_0::MastershipDomain::edit);
       interface.startRAPIDExecution();
+      // interface.releaseMastership(rws::v2_0::MastershipDomain::edit);
       response.result_code = abb_robot_msgs::ServiceResponses::RC_SUCCESS;
     }
     catch (const std::runtime_error& e)
     {
       response.message = abb_robot_msgs::ServiceResponses::FAILED;
-      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, e.what());
+      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, boost::diagnostic_information(e));
+    }
+    catch (const std::exception& e)
+    {
+      response.message = abb_robot_msgs::ServiceResponses::FAILED;
+      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, boost::diagnostic_information(e));
     }
   });
 
@@ -738,7 +747,7 @@ bool RWSServiceProvider::stopRAPID(TriggerWithResultCode::Request&, TriggerWithR
     catch (const std::runtime_error& e)
     {
       response.message = abb_robot_msgs::ServiceResponses::FAILED;
-      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, e.what());
+      ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, boost::diagnostic_information(e));
     }
   });
 

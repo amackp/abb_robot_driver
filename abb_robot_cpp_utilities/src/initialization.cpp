@@ -93,12 +93,12 @@ RobotControllerDescription establishRWSConnection(RWSManager& rws_manager,
       if(!no_connection_timeout)
       {
         ROS_WARN_STREAM_NAMED(ROS_LOG_INIT, RWS_CONNECTION_ERROR_MESSAGE << " (attempt " << attempt << "/" <<
-                                            RWS_MAX_CONNECTION_ATTEMPTS << "), reason: '" << exception.what() << "'");
+                                            RWS_MAX_CONNECTION_ATTEMPTS << "), reason: '" << boost::diagnostic_information(exception) << "'");
       }
       else
       {
         ROS_WARN_STREAM_NAMED(ROS_LOG_INIT, RWS_CONNECTION_ERROR_MESSAGE << " (waiting indefinitely), reason: '" <<
-                                            exception.what() << "'");
+                                            boost::diagnostic_information(exception) << "'");
       }
       reconnection_wait_time.sleep();
     }
